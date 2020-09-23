@@ -8,7 +8,7 @@
         <v-tab-item v-for="item in tabUnique" :key="item">
           <!--cards-->
           <v-flex v-for="item in carte" :key="item.index" class="mb-4">
-            <v-card class="mx-auto card-bord-top" color="grey lighten-5" tile>
+            <v-card class="mx-auto" color="grey lighten-5" tile>
               <v-card-title class="headline">{{item.title}}</v-card-title>
               <v-card-subtitle>{{item.subtitle}}</v-card-subtitle>
               <v-card-text>
@@ -56,8 +56,8 @@ export default {
       this.carte = this.data.filter((x) => x.type == item);
     },
     addItem(item) {
-      item.qtdCustomerOrder = this.qtd;
-      EventBus.$emit("ItemCarte", item);
+      //item.qtdCustomerOrder = this.qtd;
+      EventBus.$emit("ItemCarte", item, this.qtd);
     },
     addAnswer(item) {
       this.qtd = item;
