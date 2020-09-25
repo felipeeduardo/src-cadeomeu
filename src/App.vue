@@ -13,17 +13,20 @@
     <v-main>
       <Content />
     </v-main>
+    <Footer />
   </v-app>
 </template>
 
 <script>
 import router from "@/router";
 import Content from "./components/layouts/content";
+import Footer from "./components/layouts/footer";
 
 export default {
   name: "App",
   components: {
     Content,
+    Footer,
   },
   methods: {
     goLogin() {

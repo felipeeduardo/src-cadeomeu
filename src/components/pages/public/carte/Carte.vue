@@ -13,36 +13,36 @@
             <h1 class="headline">Detalhes do pedido</h1>
           </v-col>
         </v-row>
-        <v-row no-gutters>
-          <v-col sm="5" md="8">
-            <v-card class="pa-1" outlined tile>
-              <h4>Nome</h4>
-            </v-card>
-          </v-col>
-          <v-col sm="5" md="2">
-            <v-card class="pa-1" outlined tile>
-              <h4>Qtd</h4>
-            </v-card>
-          </v-col>
-          <v-col sm="5" md="2">
-            <v-card class="pa-1" outlined tile>
-              <h4>Valor</h4>
-            </v-card>
-          </v-col>
-        </v-row>
-        <v-flex v-for="item in this.itemsCarte" :key="item.index">
-          <v-row no-gutters>
-            <v-col sm="5" md="8">
-              <v-card class="pa-1 text-truncate" outlined tile>{{item.customerOrder.title}}</v-card>
-            </v-col>
-            <v-col sm="5" md="2">
-              <v-card class="pa-1 text-truncate" outlined tile>{{item.qtd}}</v-card>
-            </v-col>
-            <v-col sm="5" md="2">
-              <v-card class="pa-1" outlined tile>R$ {{item.customerOrder.prince * item.qtd}}</v-card>
-            </v-col>
-          </v-row>
-        </v-flex>
+        <v-simple-table>
+          <template v-slot:default>
+            <thead>
+              <tr>
+                <th class="text-left">Name</th>
+                <th class="text-right">Qtd</th>
+                <th class="text-right">Valor</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(item, index) in itemsCarte" :key="item.index">
+                <td>{{item.customerOrder.title}}</td>
+                <td class="text-right">{{item.qtd}}</td>
+                <td class="text-right text-truncate">R$ {{item.customerOrder.prince * item.qtd}}</td>
+                <td class="text-right">
+                  <v-btn
+                    color="error"
+                    fab
+                    small
+                    text
+                    @click="removeItem(index,(item.customerOrder.prince * item.qtd))"
+                  >
+                    <v-icon>mdi-close</v-icon>
+                  </v-btn>
+                </td>
+              </tr>
+            </tbody>
+          </template>
+        </v-simple-table>
         <v-row class="text-center">
           <v-col cols="12">
             <h1 class="headline success--text">Total: R$ {{this.totalItemCarte}}</h1>
@@ -70,7 +70,7 @@ export default {
         customerOrder: item,
       };
       this.itemsCarte.push(obj);
-      this.totalItemCarte += parseFloat(item.prince);
+      this.totalItemCarte += parseFloat(item.prince * qtd);
     });
   },
   methods: {
@@ -79,6 +79,10 @@ export default {
         name: "Demand",
         params: { Rid: this.$route.params.Rid, Mid: this.$route.params.Mid },
       });
+    },
+    removeItem(i, prince) {
+      this.itemsCarte.splice(i, 1);
+      this.totalItemCarte -= parseFloat(prince);
     },
   },
   data() {

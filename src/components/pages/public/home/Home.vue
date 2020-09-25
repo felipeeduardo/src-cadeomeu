@@ -9,9 +9,6 @@
         <v-flex class="mb-4">
           <DialogCarte />
         </v-flex>
-        <v-flex>
-          <div class="grey--text">&copy; {{ new Date().getFullYear() }} - contato@cadeomeu.com.br</div>
-        </v-flex>
       </v-col>
     </v-row>
   </v-container>

@@ -20,7 +20,7 @@
                     <v-switch v-model="item.vinaigrette" class="mx-2" label="Vinagrete"></v-switch>
                   </v-row>
                 </div>
-                <div class="display-2 success--text">R$ {{item.prince}}</div>
+                <div class="display-1 success--text">R$ {{item.prince}}</div>
               </v-card-text>
               <v-divider></v-divider>
               <v-card-actions>
@@ -28,7 +28,7 @@
                 <v-flex xs12 sm2>
                   <v-select @change="addAnswer" :items="items" label="Quantos?" dense class="mr-3"></v-select>
                 </v-flex>
-                <v-btn text color="success" @click="addItem(item)">Quero esse</v-btn>
+                <v-btn color="primary" @click="addItem(item)">Quero esse</v-btn>
               </v-card-actions>
             </v-card>
           </v-flex>
