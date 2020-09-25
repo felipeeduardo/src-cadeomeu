@@ -3,17 +3,29 @@
     <v-row justify="center">
       <v-dialog v-model="dialogGeneric" persistent :max-width="this.data.size">
         <v-card>
-          <v-img class="mt-4" v-if="this.img" height="120px" contain :src="this.img"></v-img>
           <v-card-text>
+            <v-row class="text-center">
+              <v-col cols="12">
+                <v-img
+                  class="mt-4"
+                  v-if="this.img"
+                  height="120px"
+                  contain
+                  :src="this.img"
+                ></v-img>
+              </v-col>
+            </v-row>
             <div class="mt-4">
-              <h1 class="title text-xs-center font-weight-light">{{this.data.title}}</h1>
+              <h1 class="title text-xs-center font-weight-light">
+                {{ this.data.title }}
+              </h1>
             </div>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" @click="verify()">
+            <v-btn color="primary" @click="verify()" text>
               <!--<v-icon left>{{this.data.iconButton}}</v-icon>-->
-              {{this.data.textButton}}
+              {{ this.data.textButton }}
             </v-btn>
           </v-card-actions>
         </v-card>

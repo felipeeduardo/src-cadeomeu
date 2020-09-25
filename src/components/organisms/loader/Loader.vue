@@ -1,20 +1,27 @@
 <template>
-  <v-layout row justify-center>
-    <v-dialog v-model="this.loader" persistent max-width="290">
-      <v-card>
-        <v-card-text>
-          <v-img height="100px" contain :src="require('@/assets/cadeomeu-loading.gif')"></v-img>
-          <div class="mt-4">
-            <h1 class="title text-xs-center font-weight-light" color="red--text">Aguarde...</h1>
-          </div>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
-  </v-layout>
+  <v-dialog v-model="this.loader" hide-overlay persistent width="300">
+    <v-card color="primary" dark>
+      <v-card-text>
+        Aguarde...
+        <v-progress-linear
+          indeterminate
+          color="white"
+          class="mb-0"
+        ></v-progress-linear>
+      </v-card-text>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    loader: {
+      type: Boolean,
+      default: null,
+    },
+  },
+};
 </script>
 
 <style>

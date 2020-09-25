@@ -1,10 +1,15 @@
 <template>
   <v-container>
-    <v-col cols="12">
-      <v-row justify="center">
+    <v-row>
+      <v-col cols="12">
+        <h1 class="headline">Pedidos</h1>
+      </v-col>
+      <v-col cols="12">
         <v-expansion-panels accordion>
-          <v-expansion-panel v-for="(item,i) in 10" :key="i">
-            <v-expansion-panel-header class="headline">Mesa - {{i}}</v-expansion-panel-header>
+          <v-expansion-panel v-for="(item, i) in 10" :key="i">
+            <v-expansion-panel-header class="headline"
+              >Mesa - {{ i }}</v-expansion-panel-header
+            >
             <v-expansion-panel-content>
               <p>Descrição:</p>
               <div>[3] - Frango com queijo (Molho, farofa, vinagrete)</div>
@@ -17,8 +22,8 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
-      </v-row>
-    </v-col>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
