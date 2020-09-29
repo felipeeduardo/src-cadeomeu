@@ -56,7 +56,6 @@ export default {
       this.carte = this.data.filter((x) => x.type == item);
     },
     addItem(item) {
-      //item.qtdCustomerOrder = this.qtd;
       EventBus.$emit("ItemCarte", item, this.qtd);
     },
     addAnswer(item) {

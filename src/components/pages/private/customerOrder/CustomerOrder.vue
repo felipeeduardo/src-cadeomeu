@@ -7,7 +7,7 @@
       <v-col cols="12">
         <v-expansion-panels accordion>
           <v-expansion-panel v-for="(item, i) in 10" :key="i">
-            <v-expansion-panel-header class="headline"
+            <v-expansion-panel-header class="font-weight-bold"
               >Mesa - {{ i }}</v-expansion-panel-header
             >
             <v-expansion-panel-content>

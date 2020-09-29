@@ -4,6 +4,7 @@ import Home from '@/components/pages/public/home'
 import HomePrivate from '@/components/pages/private/home'
 import CustomerOrder from '@/components/pages/private/customerOrder'
 import Stock from '@/components/pages/private/stock'
+import AddStock from '@/components/pages/private/stock/add'
 import Carte from '@/components/pages/public/carte'
 import Demand from '@/components/pages/public/demand'
 import Login from '@/components/pages/public/login'
@@ -47,6 +48,11 @@ export default new Router({
             path: "/:Rid/stock",
             name: 'Stock',
             component: Stock
+        },
+        {
+            path: "/:Rid/stock/add",
+            name: 'AddStock',
+            component: AddStock
         },
     ]
 })

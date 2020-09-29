@@ -32,6 +32,17 @@
           <v-card-subtitle>Fechamentos de pedidos</v-card-subtitle>
         </v-card>
       </v-col>
+      <v-col cols="12">
+        <v-card
+          class="mx-auto elevation-0"
+          color="lime lighten-3"
+          tile
+          @click="goStock()"
+        >
+          <v-card-title>Promoções</v-card-title>
+          <v-card-subtitle>Administre suas promoções</v-card-subtitle>
+        </v-card>
+      </v-col>
     </v-row>
   </v-container>
 </template>
