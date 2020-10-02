@@ -1,7 +1,23 @@
 <template>
   <v-layout class="white">
     <v-app-bar app color="primary" dark>
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+      <v-menu
+        transition="slide-x-transition"
+        bottom
+        right
+        v-if="checkSessionAuth"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-app-bar-nav-icon v-bind="attrs" v-on="on"></v-app-bar-nav-icon>
+        </template>
+        <v-list>
+          <v-list-item v-for="(item, i) in items" :key="i">
+            <v-list-item-title @click="goPath(item.path)">{{
+              item.title
+            }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
       <v-toolbar-title></v-toolbar-title>
       <div class="d-flex align-center"></div>
       <v-spacer></v-spacer>
@@ -28,6 +44,13 @@ export default {
   data() {
     return {
       checkSessionAuth: false,
+      items: [
+        { title: "Página inicial", path: "HomePrivate" },
+        { title: "Pedidos", path: "CustomerOrder" },
+        { title: "Estoque", path: "Stock" },
+        { title: "Fechamentos", path: "" },
+        { title: "Promoções", path: "" },
+      ],
     };
   },
   created() {
@@ -52,6 +75,12 @@ export default {
     goLogin() {
       router.push({
         name: "Login",
+      });
+    },
+    goPath(path) {
+      router.push({
+        name: `${path}`,
+        params: { Rid: this.auth.user.email },
       });
     },
   },

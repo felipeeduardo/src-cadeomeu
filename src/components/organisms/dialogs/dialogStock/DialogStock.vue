@@ -100,8 +100,8 @@ export default {
     EventBus.$on("dialogStock", (event, item) => {
       this.dialog = event;
       this.form.name = item.product;
-      this.form.decription = "";
-      this.form.accompaniment = true;
+      this.form.decription = item.productDecription;
+      this.form.accompaniment = item.accompaniment;
       this.form.prince = item.productValue;
       this.form.count = item.qtd;
       console.log(item);

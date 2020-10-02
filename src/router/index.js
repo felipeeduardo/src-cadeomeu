@@ -8,9 +8,18 @@ import AddStock from '@/components/pages/private/stock/add'
 import Carte from '@/components/pages/public/carte'
 import Demand from '@/components/pages/public/demand'
 import Login from '@/components/pages/public/login'
+import NotFound from '@/components/pages/public/notFound'
 
 Vue.use(Router)
 
+const ifAuthenticated = (to, from, next) => {
+    const verify = sessionStorage.getItem("cadeomeu");
+    if (verify == 'true') {
+        next()
+        return
+    }
+    next('/login')
+}
 export default new Router({
     routes: [
         {
@@ -33,26 +42,35 @@ export default new Router({
             name: 'Demand',
             component: Demand
         },
+        {
+            path: '*',
+            name: 'NotFound',
+            component: NotFound
+        },
         //routers privates
         {
             path: "/:Rid/home",
             name: 'HomePrivate',
-            component: HomePrivate
+            component: HomePrivate,
+            beforeEnter: ifAuthenticated
         },
         {
             path: "/:Rid/customerorder",
             name: 'CustomerOrder',
-            component: CustomerOrder
+            component: CustomerOrder,
+            beforeEnter: ifAuthenticated
         },
         {
             path: "/:Rid/stock",
             name: 'Stock',
-            component: Stock
+            component: Stock,
+            beforeEnter: ifAuthenticated
         },
         {
             path: "/:Rid/stock/add",
             name: 'AddStock',
-            component: AddStock
+            component: AddStock,
+            beforeEnter: ifAuthenticated
         },
     ]
 })
