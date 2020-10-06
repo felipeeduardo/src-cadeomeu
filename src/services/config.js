@@ -3,7 +3,7 @@ import store from '@/store';
 import * as types from '@/store/mutation-types'
 
 export const http = axios.create({
-    baseURL: 'https://hawinsoft.azurewebsites.net/api/'
+    baseURL: 'https://cadeomeu.azurewebsites.net/api/'
 })
 
 //IMTERCEPTORS

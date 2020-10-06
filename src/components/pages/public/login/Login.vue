@@ -6,10 +6,10 @@
         <v-form ref="form" v-model="valid" lazy-validation>
           <v-text-field
             outlined
-            name="email"
+            name="name"
             label="Usuário"
             type="text"
-            v-model="form.email"
+            v-model="form.name"
             :rules="[rules.required]"
           ></v-text-field>
           <v-text-field
@@ -55,7 +55,7 @@ export default {
       },
       valid: true,
       form: {
-        email: "",
+        name: "",
         password: "",
       },
       rules: {
@@ -76,7 +76,7 @@ export default {
               EventBus.$emit("checkSessionAuth", true);
               router.push({
                 name: "HomePrivate",
-                params: { Rid: this.form.email },
+                params: { Rid: this.form.name },
               });
             }
           })

@@ -22,7 +22,7 @@
       <div class="d-flex align-center"></div>
       <v-spacer></v-spacer>
       <v-btn @click="goLogin()" text v-if="!checkSessionAuth">Login</v-btn>
-      {{ this.auth.user.email }}
+      {{ this.auth.user.name }}
       <v-btn @click="logout()" text v-if="checkSessionAuth">Sair</v-btn>
     </v-app-bar>
     <Loader :loader="this.loading" />
@@ -80,7 +80,7 @@ export default {
     goPath(path) {
       router.push({
         name: `${path}`,
-        params: { Rid: this.auth.user.email },
+        params: { Rid: this.auth.user.name },
       });
     },
   },
