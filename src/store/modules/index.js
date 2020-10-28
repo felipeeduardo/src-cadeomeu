@@ -1,7 +1,9 @@
 import auth from './auth'
 import user from './user'
+import stock from './stock'
+import common from './common'
 
-const vuex = { auth, user }
+const vuex = { auth, user, stock, common }
 
 const keys = Object.keys(vuex)
 

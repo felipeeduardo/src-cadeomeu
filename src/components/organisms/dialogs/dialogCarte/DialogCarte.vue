@@ -3,10 +3,10 @@
     <v-row justify="center">
       <v-dialog v-model="dialog" persistent scrollable max-width="400px">
         <template v-slot:activator="{ on, attrs }">
-          <v-btn color="primary" dark block large v-bind="attrs" v-on="on">O que tem aqui</v-btn>
+          <v-btn color="primary" dark block large v-bind="attrs" v-on="on">Cardápios</v-btn>
         </template>
         <v-card>
-          <v-card-title class="headline">Fala ai, onde tu tá?</v-card-title>
+          <v-card-title class="headline">Selecione a localização</v-card-title>
           <v-img :src="require('@/assets/clients/crocipa.jpg')" contain height="200" />
           <v-card-text style="height: 300px;">
             <v-radio-group v-model="typeRequest" column>
@@ -26,6 +26,11 @@
               <v-radio label="Mesa - 13" value="13"></v-radio>
               <v-radio label="Mesa - 14" value="14"></v-radio>
               <v-radio label="Mesa - 15" value="15"></v-radio>
+              <v-radio label="Mesa - 16" value="16"></v-radio>
+              <v-radio label="Mesa - 17" value="17"></v-radio>
+              <v-radio label="Mesa - 18" value="18"></v-radio>
+              <v-radio label="Mesa - 19" value="19"></v-radio>
+              <v-radio label="Mesa - 20" value="20"></v-radio>
             </v-radio-group>
           </v-card-text>
           <v-card-actions>
@@ -36,7 +41,7 @@
               :disabled="this.typeRequest?false:true"
               text
               @click="goCarte()"
-            >Aqui ó</v-btn>
+            >Próximo</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>

@@ -8,7 +8,9 @@
         <v-select
           @change="addAnswer"
           :items="items"
-          label="Tipo de produto"
+          item-text="name"
+          item-value="id"
+          label="Tipo do produto"
           outlined
         ></v-select>
         <v-form ref="form" v-model="valid">
@@ -22,10 +24,10 @@
           ></v-text-field>
           <v-textarea
             outlined
-            name="decription"
+            name="description"
             label="Descrição do produto"
             type="text"
-            v-model="form.decription"
+            v-model="form.description"
             :rules="[rules.required]"
           ></v-textarea>
           <v-switch
@@ -35,10 +37,10 @@
           ></v-switch>
           <v-text-field
             outlined
-            name="prince"
+            name="price"
             label="R$ Valor unitário"
             type="number"
-            v-model="form.prince"
+            v-model="form.price"
             :rules="[rules.required]"
           ></v-text-field>
           <v-text-field
@@ -59,44 +61,72 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
+import router from "@/router";
 export default {
+  computed: {
+    ...mapState("auth", ["auth"]),
+  },
+  created() {
+    const data = {
+      id_user: this.auth.user.id_user,
+      token: this.auth.token,
+    };
+    this.getTypes(data)
+      .then((res) => {
+        if (res.status == 200) {
+          res.data.forEach((el) => {
+            this.items.push({ name: el.name, id: el.id_type });
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
   methods: {
+    ...mapActions("common", ["getTypes"]),
+    ...mapActions("stock", ["createStock"]),
     addItem() {
       let obj = {
-        name: this.form.name,
-        decription: this.form.decription,
+        id_user: this.auth.user.id_user,
+        token: this.auth.token,
+        id_type: this.form.id_type,
+        product: this.form.name,
+        description: this.form.description,
         accompaniment: this.form.accompaniment,
-        prince: this.form.prince,
+        price: this.form.price,
         count: this.form.count,
-        qtd: this.qtd,
       };
-      console.log(obj);
+      this.createStock(obj)
+        .then((res) => {
+          if (res.status == 204) {
+            router.push({
+              name: "Stock",
+              params: { Rid: this.$route.params.Rid },
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     addAnswer(item) {
-      this.qtd = item;
+      this.form.id_type = item;
     },
   },
   data() {
     return {
       valid: false,
-      qtd: 1,
       form: {
+        id_type: "",
         name: "",
-        decription: "",
+        description: "",
         accompaniment: "",
-        prince: "",
+        price: "",
         count: "",
       },
-      items: [
-        "Combos",
-        "Espetinhos",
-        "Diversos",
-        "Petiscos",
-        "Bebidas - Diversas",
-        "Cervejas long long neck's",
-        "Cervejas 600ml",
-        "Cervejas Litrinhos 300ml",
-      ],
+      items: [],
       rules: {
         required: (value) => !!value || "Campo obrigatório",
         counter: (value) => value.length <= 8 || "Max 8 characters",

@@ -2,7 +2,7 @@
   <v-container>
     <v-row class="text-center">
       <v-col cols="12">
-        <h1 class="headline">O que tem aqui - {{ this.table}}</h1>
+        <h1 class="headline">Mesa - {{ this.table}}</h1>
       </v-col>
     </v-row>
     <CardCarte :data="cards" />

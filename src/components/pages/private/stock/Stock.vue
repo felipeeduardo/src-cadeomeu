@@ -20,7 +20,7 @@
           </v-card-title>
           <v-data-table
             :headers="headers"
-            :items="desserts"
+            :items="stock"
             :search="search"
             @click:row="handleClick"
           ></v-data-table>
@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 import DialogStock from "@/components/organisms/dialogs/dialogStock";
 import { EventBus } from "@/services/event-bus.js";
 import router from "@/router";
@@ -38,7 +39,38 @@ export default {
   components: {
     DialogStock,
   },
+  computed: {
+    ...mapState("auth", ["auth"]),
+  },
+  created() {
+    const data = {
+      id_user: this.auth.user.id_user,
+      token: this.auth.token,
+    };
+    this.getStock(data)
+      .then((res) => {
+        if (res.status == 200) {
+          res.data.forEach((el) => {
+            let item = {
+              productType: "Espetinhos",
+              product: el.product,
+              productDecription: el.description,
+              accompaniment: el.accompaniment,
+              productValue: el.price,
+              qtd: el.qtd,
+            };
+            this.stock.push(item);
+          });
+        }
+      })
+      .catch((err) => {
+        if (err.response.status == 401) {
+          EventBus.$emit("dialogGeneric", true);
+        }
+      });
+  },
   methods: {
+    ...mapActions("stock", ["getStock"]),
     goStockAdd() {
       router.push({
         name: "AddStock",
@@ -60,40 +92,7 @@ export default {
         { text: "Valor", value: "productValue" },
         { text: "Quantidade", value: "qtd" },
       ],
-      desserts: [
-        {
-          productType: "Espetinhos",
-          product: "Frango com queijo",
-          productDecription: "Descrição produto",
-          accompaniment: true,
-          productValue: 7.5,
-          qtd: 24,
-        },
-        {
-          productType: "Bebidas",
-          product: "cervejas",
-          productDecription: "Descrição produto",
-          accompaniment: true,
-          productValue: 9.0,
-          qtd: 37,
-        },
-        {
-          productType: "Espetinhos",
-          product: "Carne com queijo",
-          productDecription: "Descrição produto",
-          accompaniment: false,
-          productValue: 16.0,
-          qtd: 7.5,
-        },
-        {
-          productType: "Espetinhos",
-          product: "Carne",
-          productDecription: "Descrição produto",
-          accompaniment: false,
-          productValue: 3.7,
-          qtd: 67,
-        },
-      ],
+      stock: [],
     };
   },
 };

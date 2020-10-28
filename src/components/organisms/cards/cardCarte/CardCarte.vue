@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="pa-0">
     <v-card>
       <v-tabs v-model="tab" show-arrows>
         <v-tab v-for="item in tabUnique" :key="item.tab" @click="filter(item)">{{ item }}</v-tab>
@@ -28,7 +28,7 @@
                 <v-flex xs12 sm2>
                   <v-select @change="addAnswer" :items="items" label="Quantos?" dense class="mr-3"></v-select>
                 </v-flex>
-                <v-btn color="primary" @click="addItem(item)">Quero esse</v-btn>
+                <v-btn color="primary" @click="addItem(item)" small>Adicionar</v-btn>
               </v-card-actions>
             </v-card>
           </v-flex>
