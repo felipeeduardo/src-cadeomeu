@@ -42,6 +42,38 @@ export default {
   computed: {
     ...mapState("auth", ["auth"]),
   },
+  mounted() {
+    EventBus.$on("updateActionStock", (event) => {
+      if (event) {
+        const data = {
+          id_user: this.auth.user.id_user,
+          token: this.auth.token,
+        };
+        this.getStock(data)
+          .then((res) => {
+            if (res.status == 200) {
+              this.stock = [];
+              res.data.forEach((el) => {
+                let item = {
+                  productId: el.id_stock,
+                  productIdType: el.id_type,
+                  productType: el.name,
+                  product: el.product,
+                  productDescription: el.description,
+                  accompaniment: el.accompaniment ? "Sim" : "Não",
+                  productValue: el.price,
+                  qtd: el.qtd,
+                };
+                this.stock.push(item);
+              });
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    });
+  },
   created() {
     const data = {
       id_user: this.auth.user.id_user,
@@ -52,10 +84,12 @@ export default {
         if (res.status == 200) {
           res.data.forEach((el) => {
             let item = {
-              productType: "Espetinhos",
+              productId: el.id_stock,
+              productIdType: el.id_type,
+              productType: el.name,
               product: el.product,
-              productDecription: el.description,
-              accompaniment: el.accompaniment,
+              productDescription: el.description,
+              accompaniment: el.accompaniment ? "Sim" : "Não",
               productValue: el.price,
               qtd: el.qtd,
             };
@@ -64,9 +98,7 @@ export default {
         }
       })
       .catch((err) => {
-        if (err.response.status == 401) {
-          EventBus.$emit("dialogGeneric", true);
-        }
+        console.log(err);
       });
   },
   methods: {
@@ -85,14 +117,17 @@ export default {
     return {
       search: "",
       headers: [
+        { text: "Id", value: "productId", align: " d-none" },
+        { text: "IdType", value: "productIdType", align: " d-none" },
         { text: "Tipo", value: "productType" },
         { text: "Produto", value: "product" },
-        { text: "Descrição", value: "productDecription" },
+        { text: "Descrição", value: "productDescription" },
         { text: "Acompanhamentos", value: "accompaniment" },
         { text: "Valor", value: "productValue" },
         { text: "Quantidade", value: "qtd" },
       ],
       stock: [],
+      updateActionStock: false,
     };
   },
 };

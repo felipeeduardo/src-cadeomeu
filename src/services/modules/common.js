@@ -14,3 +14,13 @@ export const getAllTypesUser = (data) => {
             return Promise.reject(error)
         })
 }
+//table stock
+export const getCarteUser = (data) => {
+    return http.get('v1/cartes/' + data)
+        .then(res => {
+            return Promise.resolve(res)
+        })
+        .catch(error => {
+            return Promise.reject(error)
+        })
+}

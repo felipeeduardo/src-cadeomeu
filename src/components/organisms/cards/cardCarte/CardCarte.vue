@@ -2,33 +2,53 @@
   <v-container class="pa-0">
     <v-card>
       <v-tabs v-model="tab" show-arrows>
-        <v-tab v-for="item in tabUnique" :key="item.tab" @click="filter(item)">{{ item }}</v-tab>
+        <v-tab
+          v-for="item in tabUnique"
+          :key="item.tab"
+          @click="filter(item)"
+          >{{ item }}</v-tab
+        >
       </v-tabs>
       <v-tabs-items v-model="tab">
         <v-tab-item v-for="item in tabUnique" :key="item">
           <!--cards-->
           <v-flex v-for="item in carte" :key="item.index" class="mb-4">
             <v-card class="mx-auto" color="grey lighten-5" tile>
-              <v-card-title class="headline">{{item.title}}</v-card-title>
-              <v-card-subtitle>{{item.subtitle}}</v-card-subtitle>
+              <v-card-title class="">{{ item.title }}</v-card-title>
+              <v-card-subtitle>{{ item.subtitle }}</v-card-subtitle>
+
+              <div v-show="item.accompaniments">
+                <v-btn color="primary" small text
+                  >Veja os acompanhamentos</v-btn
+                >
+              </div>
               <v-card-text>
-                <div v-show="item.accompaniments">
+                <!--<div v-show="item.accompaniments">
                   <h3>Acompanhamentos</h3>
                   <v-row>
                     <v-switch v-model="item.sauces" class="mx-2" label="Molhos"></v-switch>
                     <v-switch v-model="item.crumbs" class="mx-2" label="Farofa"></v-switch>
                     <v-switch v-model="item.vinaigrette" class="mx-2" label="Vinagrete"></v-switch>
                   </v-row>
-                </div>
-                <div class="display-1 success--text">R$ {{item.prince}}</div>
+                </div>-->
+                <!--<div class="display-1 success--text">R$ {{ item.prince }}</div>-->
+                <h3 class="success--text">R$ {{ item.price }}</h3>
               </v-card-text>
               <v-divider></v-divider>
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-flex xs12 sm2>
-                  <v-select @change="addAnswer" :items="items" label="Quantos?" dense class="mr-3"></v-select>
+                  <v-select
+                    @change="addAnswer"
+                    :items="items"
+                    label="Quantidade"
+                    dense
+                    class="mr-3"
+                  ></v-select>
                 </v-flex>
-                <v-btn color="primary" @click="addItem(item)" small>Adicionar</v-btn>
+                <v-btn color="primary" @click="addItem(item)" small tile
+                  >Adicionar</v-btn
+                >
               </v-card-actions>
             </v-card>
           </v-flex>
@@ -39,21 +59,42 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import { EventBus } from "@/services/event-bus.js";
 export default {
-  props: {
-    data: {
-      type: Array,
-      default: null,
-    },
-  },
   created() {
-    this.tabUnique = [...new Set(this.data.map((x) => x.type))];
-    this.carte = this.data.filter((x) => x.type == this.tabUnique[0]);
+    this.getCartes(this.$route.params.Rid)
+      .then((res) => {
+        if (res.status == 200) {
+          res.data.forEach((el) => {
+            let obj = {
+              type: el.tname,
+              accompaniments: el.accompaniment,
+              title: el.product,
+              subtitle: el.description,
+              price: el.price,
+              qtdStock: el.qtd,
+              sauces: false,
+              crumbs: false,
+              vinaigrette: false,
+            };
+            if (el.qtd != 0) {
+              this.cards.push(obj);
+            }
+          });
+
+          this.tabUnique = [...new Set(this.cards.map((x) => x.type))];
+          this.carte = this.cards.filter((x) => x.type == this.tabUnique[0]);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
   methods: {
+    ...mapActions("common", ["getCartes"]),
     filter(item) {
-      this.carte = this.data.filter((x) => x.type == item);
+      this.carte = this.cards.filter((x) => x.type == item);
     },
     addItem(item) {
       EventBus.$emit("ItemCarte", item, this.qtd);
@@ -72,6 +113,7 @@ export default {
       tab: null,
       tabUnique: [],
       carte: [],
+      cards: [],
     };
   },
 };

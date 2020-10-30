@@ -25,11 +25,10 @@ export const add = (data) => {
         'id_type': data.id_type,
         'product': data.product,
         'description': data.description,
-        'accompaniment': data.accompaniment,
+        'accompaniment': Boolean(data.accompaniment),
         'price': data.price,
         'qtd': parseInt(data.count)
     };
-    console.log(data_add)
     return http.post('v1/stocks', data_add, { headers })
         .then(res => {
             return Promise.resolve(res)
@@ -44,7 +43,18 @@ export const update = (data) => {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + data.token,
     };
-    return http.put('v1/stocks/' + data.id_stock, { headers })
+
+    const data_update = {
+        'id_user': data.id_user,
+        'id_type': data.id_type,
+        'product': data.product,
+        'description': data.description,
+        'accompaniment': Boolean(data.accompaniment),
+        'price': data.price,
+        'qtd': parseInt(data.count)
+    };
+
+    return http.put('v1/stocks/' + data.id_stock, data_update, { headers })
         .then(res => {
             return Promise.resolve(res)
         })

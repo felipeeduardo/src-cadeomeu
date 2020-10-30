@@ -16,3 +16,14 @@ export const getTypes = ({ commit }, data) => {
             return Promise.reject(err)
         })
 }
+
+export const getCartes = ({ commit }, data) => {
+    return common_types.getCarteUser(data)
+        .then(result => {
+            commit(types.CARTE_COMMON_SUCCESS, result.data)
+            return Promise.resolve(result)
+        }).catch(err => {
+            commit(types.CARTE_COMMON_ERROR, err)
+            return Promise.reject(err)
+        })
+}
