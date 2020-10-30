@@ -14,26 +14,21 @@
           <!--cards-->
           <v-flex v-for="item in carte" :key="item.index" class="mb-4">
             <v-card class="mx-auto" color="grey lighten-5" tile>
-              <v-card-title class="">{{ item.title }}</v-card-title>
+              <v-card-title>
+                <v-row>
+                  <v-col cols="7"> {{ item.title }} </v-col>
+                  <v-col cols="5" class="text-right">
+                    <h3 class="success--text">R$ {{ item.price }}</h3>
+                  </v-col>
+                </v-row>
+              </v-card-title>
               <v-card-subtitle>{{ item.subtitle }}</v-card-subtitle>
 
-              <div v-show="item.accompaniments">
+              <div v-show="item.accompaniments" class="mb-3">
                 <v-btn color="primary" small text
                   >Veja os acompanhamentos</v-btn
                 >
               </div>
-              <v-card-text>
-                <!--<div v-show="item.accompaniments">
-                  <h3>Acompanhamentos</h3>
-                  <v-row>
-                    <v-switch v-model="item.sauces" class="mx-2" label="Molhos"></v-switch>
-                    <v-switch v-model="item.crumbs" class="mx-2" label="Farofa"></v-switch>
-                    <v-switch v-model="item.vinaigrette" class="mx-2" label="Vinagrete"></v-switch>
-                  </v-row>
-                </div>-->
-                <!--<div class="display-1 success--text">R$ {{ item.prince }}</div>-->
-                <h3 class="success--text">R$ {{ item.price }}</h3>
-              </v-card-text>
               <v-divider></v-divider>
               <v-card-actions>
                 <v-spacer></v-spacer>
