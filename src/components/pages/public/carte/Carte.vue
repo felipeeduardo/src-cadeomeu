@@ -55,7 +55,7 @@
           </v-col>
         </v-row>
         <v-btn color="primary" dark block large @click="goDemand()"
-          >Pronto, terminei</v-btn
+          >Finalizar pedido</v-btn
         >
       </div>
     </v-container>
@@ -66,7 +66,7 @@
 import { mapActions } from "vuex";
 import { EventBus } from "@/services/event-bus.js";
 import CardCarte from "@/components/organisms/cards/cardCarte";
-import router from "@/router";
+//import router from "@/router";
 export default {
   name: "Carte",
   components: {
@@ -75,6 +75,8 @@ export default {
   mounted() {
     EventBus.$on("ItemCarte", (item, qtd) => {
       var obj = {
+        user: this.$route.params.Rid,
+        table: this.table,
         qtd: qtd,
         customerOrder: item,
       };
@@ -85,10 +87,11 @@ export default {
   methods: {
     ...mapActions("common", ["getCartes"]),
     goDemand() {
-      router.push({
+      console.log(JSON.stringify(this.itemsCarte));
+      /*router.push({
         name: "Demand",
         params: { Rid: this.$route.params.Rid, Mid: this.$route.params.Mid },
-      });
+      });*/
     },
     removeItem(i, price) {
       this.itemsCarte.splice(i, 1);

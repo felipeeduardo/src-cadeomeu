@@ -16,13 +16,16 @@
             <v-card class="mx-auto" color="grey lighten-5" tile>
               <v-card-title>
                 <v-row>
-                  <v-col cols="7"> {{ item.title }} </v-col>
+                  <v-col cols="7"> {{ item.title }}</v-col>
                   <v-col cols="5" class="text-right">
                     <h3 class="success--text">R$ {{ item.price }}</h3>
+                    <span class="text--secondary caption"
+                      >Estoque {{ item.qtdStock }}</span
+                    >
                   </v-col>
                 </v-row>
               </v-card-title>
-              <v-card-subtitle>{{ item.subtitle }}</v-card-subtitle>
+              <v-card-subtitle> {{ item.subtitle }}</v-card-subtitle>
 
               <div v-show="item.accompaniments" class="mb-3">
                 <v-btn color="primary" small text
@@ -63,6 +66,7 @@ export default {
         if (res.status == 200) {
           res.data.forEach((el) => {
             let obj = {
+              id_stock: el.id_stock,
               type: el.tname,
               accompaniments: el.accompaniment,
               title: el.product,
