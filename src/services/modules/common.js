@@ -24,3 +24,16 @@ export const getCarteUser = (data) => {
             return Promise.reject(error)
         })
 }
+//table customer_order
+export const addCustomerOrderClient = (data) => {
+    const headers = {
+        'Content-Type': 'application/json'
+    };
+    return http.post('v1/CustomerOrders/', data, { headers })
+        .then(res => {
+            return Promise.resolve(res)
+        })
+        .catch(error => {
+            return Promise.reject(error)
+        })
+}

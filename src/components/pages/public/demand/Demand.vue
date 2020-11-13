@@ -2,7 +2,7 @@
   <v-container>
     <v-row class="text-center">
       <v-col cols="12">
-        <h1 class="headline">Acompanha ai... Blz?</h1>
+        <h1 class="headline">Pedidos mesa - {{ this.$route.params.Mid }}</h1>
       </v-col>
     </v-row>
     <v-simple-table>
@@ -17,11 +17,17 @@
         </thead>
         <tbody>
           <tr v-for="item in itemsCarte" :key="item.index">
-            <td>{{item.customerOrder.title}}</td>
-            <td class="text-left">{{item.qtd}}</td>
-            <td class="text-left text-truncate">R$ {{item.customerOrder.prince * item.qtd}}</td>
-            <td class="text-left warning--text" v-if="item.status == 0" >Preparando</td>
-            <td class="text-left success--text" v-if="item.status == 1 ">Pronto</td>
+            <td>{{ item.customerOrder.title }}</td>
+            <td class="text-left">{{ item.qtd }}</td>
+            <td class="text-left text-truncate">
+              R$ {{ item.customerOrder.prince * item.qtd }}
+            </td>
+            <td class="text-left warning--text" v-if="item.status == 0">
+              Preparando
+            </td>
+            <td class="text-left success--text" v-if="item.status == 1">
+              Pronto
+            </td>
           </tr>
         </tbody>
       </template>

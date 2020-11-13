@@ -100,7 +100,7 @@ export default {
     },
     addAnswer(item) {
       this.qtd = item;
-    },
+    }
   },
   data() {
     return {

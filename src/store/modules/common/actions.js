@@ -1,8 +1,8 @@
-import * as common_types from '@/services/modules/common'
+import * as commons from '@/services/modules/common'
 import * as types from './mutation-types'
 
 export const getTypes = ({ commit }, data) => {
-    return common_types.getAllTypesUser(data)
+    return commons.getAllTypesUser(data)
         .then(result => {
             if (result.data.auth) {
                 commit(types.TYPE_COMMON_SUCCESS, result.data)
@@ -18,12 +18,23 @@ export const getTypes = ({ commit }, data) => {
 }
 
 export const getCartes = ({ commit }, data) => {
-    return common_types.getCarteUser(data)
+    return commons.getCarteUser(data)
         .then(result => {
             commit(types.CARTE_COMMON_SUCCESS, result.data)
             return Promise.resolve(result)
         }).catch(err => {
             commit(types.CARTE_COMMON_ERROR, err)
+            return Promise.reject(err)
+        })
+}
+
+export const addCustomerOrder = ({ commit }, data) => {
+    return commons.addCustomerOrderClient(data)
+        .then(result => {
+            commit(types.CUSTOMERORDER_COMMON_SUCCESS, result.data)
+            return Promise.resolve(result)
+        }).catch(err => {
+            commit(types.CUSTOMERORDER_COMMON_ERROR, err)
             return Promise.reject(err)
         })
 }

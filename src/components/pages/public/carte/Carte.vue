@@ -2,6 +2,11 @@
   <v-container>
     <v-row class="text-center">
       <v-col cols="12">
+        <v-img
+          :src="require('@/assets/clients/' + this.$route.params.Rid + '.jpg')"
+          contain
+          height="180"
+        />Cardápio
         <h1 class="headline">Mesa - {{ this.table }}</h1>
       </v-col>
     </v-row>
@@ -66,7 +71,7 @@
 import { mapActions } from "vuex";
 import { EventBus } from "@/services/event-bus.js";
 import CardCarte from "@/components/organisms/cards/cardCarte";
-//import router from "@/router";
+import router from "@/router";
 export default {
   name: "Carte",
   components: {
@@ -85,13 +90,28 @@ export default {
     });
   },
   methods: {
-    ...mapActions("common", ["getCartes"]),
+    ...mapActions("common", ["getCartes", "addCustomerOrder"]),
     goDemand() {
-      console.log(JSON.stringify(this.itemsCarte));
-      /*router.push({
-        name: "Demand",
-        params: { Rid: this.$route.params.Rid, Mid: this.$route.params.Mid },
-      });*/
+      const data = {
+        customer_order_table: this.table,
+        customer_order_json: this.itemsCarte,
+      };
+      console.log(data);
+      this.addCustomerOrder(data)
+        .then((res) => {
+          if (res.status == 200 || res.status == 204) {
+            router.push({
+              name: "Demand",
+              params: {
+                Rid: this.$route.params.Rid,
+                Mid: this.$route.params.Mid,
+              },
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     removeItem(i, price) {
       this.itemsCarte.splice(i, 1);
