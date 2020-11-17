@@ -6,8 +6,8 @@
           :src="require('@/assets/clients/' + this.$route.params.Rid + '.jpg')"
           contain
           height="180"
-        />Cardápio
-        <h1 class="headline">Mesa - {{ this.table }}</h1>
+        />
+        <h1 class="headline">Cardápio mesa - {{ this.table }}</h1>
       </v-col>
     </v-row>
     <CardCarte />

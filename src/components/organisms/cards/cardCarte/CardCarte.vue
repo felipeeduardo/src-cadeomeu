@@ -19,19 +19,47 @@
                   <v-col cols="7"> {{ item.title }}</v-col>
                   <v-col cols="5" class="text-right">
                     <h3 class="success--text">R$ {{ item.price }}</h3>
-                    <span class="text--secondary caption"
-                      >Estoque {{ item.qtdStock }}</span
-                    >
                   </v-col>
                 </v-row>
               </v-card-title>
-              <v-card-subtitle> {{ item.subtitle }}</v-card-subtitle>
-
-              <div v-show="item.accompaniments" class="mb-3">
-                <v-btn color="primary" small text
-                  >Veja os acompanhamentos</v-btn
-                >
-              </div>
+              <v-card-subtitle>
+                <v-row>
+                  <v-col cols="7">
+                    {{ item.subtitle }}
+                  </v-col>
+                  <v-col cols="5" class="text-right">
+                    <span class="text--secondary caption"
+                      >Estoque <b>{{ item.qtdStock }}</b></span
+                    >
+                  </v-col>
+                </v-row>
+              </v-card-subtitle>
+              <v-card-text v-show="item.accompaniments">
+                <b>Selecione os acompanhamentos:</b>
+                <v-row>
+                  <v-col cols="3">
+                    <v-checkbox
+                      class="ma-0 pa-0"
+                      v-model="item.crumbs"
+                      label="Farofa"
+                    ></v-checkbox>
+                  </v-col>
+                  <v-col cols="3">
+                    <v-checkbox
+                      class="ma-0 pa-0 ml-1"
+                      v-model="item.sauces"
+                      label="Molhos"
+                    ></v-checkbox>
+                  </v-col>
+                  <v-col cols="3">
+                    <v-checkbox
+                      class="ma-0 pa-0 ml-3"
+                      v-model="item.vinaigrette"
+                      label="Vinagrete"
+                    ></v-checkbox>
+                  </v-col>
+                </v-row>
+              </v-card-text>
               <v-divider></v-divider>
               <v-card-actions>
                 <v-spacer></v-spacer>
@@ -100,10 +128,14 @@ export default {
     },
     addAnswer(item) {
       this.qtd = item;
-    }
+    },
+    toggle(event) {
+      this.accompaniments = event ? true : false;
+    },
   },
   data() {
     return {
+      accompaniments: true,
       sauces: "",
       crumbs: "",
       vinaigrette: "",

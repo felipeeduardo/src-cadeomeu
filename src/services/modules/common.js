@@ -37,3 +37,14 @@ export const addCustomerOrderClient = (data) => {
             return Promise.reject(error)
         })
 }
+
+//table customer_order
+export const getCustomerOrderClient = (data) => {
+    return http.get('v1/CustomerOrders/' + data.table + '/' + data.client)
+        .then(res => {
+            return Promise.resolve(res)
+        })
+        .catch(error => {
+            return Promise.reject(error)
+        })
+}

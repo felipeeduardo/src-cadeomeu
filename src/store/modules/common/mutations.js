@@ -17,6 +17,12 @@ const mutations = {
     },
     [types.CUSTOMERORDER_COMMON_ERROR](state, customerOrders) {
         state.customerOrders = customerOrders
+    },
+    [types.DEMANDCLIENT_COMMON_SUCCESS](state, demandClient) {
+        state.demandClient = demandClient
+    },
+    [types.DEMANDCLIENT_COMMON_ERROR](state, demandClient) {
+        state.demandClient = demandClient
     }
 }
 

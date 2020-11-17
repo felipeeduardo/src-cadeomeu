@@ -38,3 +38,14 @@ export const addCustomerOrder = ({ commit }, data) => {
             return Promise.reject(err)
         })
 }
+
+export const getCustomerOrder = ({ commit }, data) => {
+    return commons.getCustomerOrderClient(data)
+        .then(result => {
+            commit(types.DEMANDCLIENT_COMMON_SUCCESS, result.data)
+            return Promise.resolve(result)
+        }).catch(err => {
+            commit(types.DEMANDCLIENT_COMMON_ERROR, err)
+            return Promise.reject(err)
+        })
+}
