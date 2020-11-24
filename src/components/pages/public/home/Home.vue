@@ -2,7 +2,7 @@
   <v-container>
     <v-row class="text-center">
       <v-col cols="12">
-        <v-img :src="require('@/assets/cadeomeu.jpg')" contain height="350" />
+        <v-img :src="require('@/assets/cadeomeu.jpg')" contain height="300" />
         <h1 class="display-2 font-weight-light">Cadê o meu?</h1>
       </v-col>
       <v-col>

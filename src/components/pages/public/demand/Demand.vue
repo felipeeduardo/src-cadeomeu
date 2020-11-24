@@ -37,13 +37,14 @@
       </v-col>
     </v-row>
     <v-col cols="12">
-      <v-btn color="primary" block @click="validate()">Novo pedido</v-btn>
+      <v-btn color="primary" block @click="goCarte()">Novo pedido</v-btn>
     </v-col>
   </v-container>
 </template>
 
 <script>
 import { mapActions } from "vuex";
+import router from "@/router";
 export default {
   created() {
     const data = {
@@ -81,6 +82,12 @@ export default {
         h = data.getHours(),
         m = data.getMinutes();
       return dia + "/" + mes + "/" + ano + " " + h + ":" + m;
+    },
+    goCarte() {
+      router.push({
+        name: "Carte",
+        params: { Rid: this.$route.params.Rid, Mid: this.$route.params.Mid },
+      });
     },
   },
   data() {

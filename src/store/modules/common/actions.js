@@ -39,6 +39,17 @@ export const addCustomerOrder = ({ commit }, data) => {
         })
 }
 
+export const UpdateCustomerOrder = ({ commit }, data) => {
+    return commons.UpdateCustomerOrderClient(data)
+        .then(result => {
+            commit(types.CUSTOMERORDER_COMMON_SUCCESS, result.data)
+            return Promise.resolve(result)
+        }).catch(err => {
+            commit(types.CUSTOMERORDER_COMMON_ERROR, err)
+            return Promise.reject(err)
+        })
+}
+
 export const getCustomerOrder = ({ commit }, data) => {
     return commons.getCustomerOrderClient(data)
         .then(result => {
@@ -46,6 +57,17 @@ export const getCustomerOrder = ({ commit }, data) => {
             return Promise.resolve(result)
         }).catch(err => {
             commit(types.DEMANDCLIENT_COMMON_ERROR, err)
+            return Promise.reject(err)
+        })
+}
+
+export const getVeryfyOpenTable = ({ commit }, data) => {
+    return commons.getOpenTable(data)
+        .then(result => {
+            commit(types.VERIFYOPENTABLE_COMMON_SUCCESS, result.data)
+            return Promise.resolve(result)
+        }).catch(err => {
+            commit(types.VERIFYOPENTABLE_COMMON_ERROR, err)
             return Promise.reject(err)
         })
 }

@@ -78,40 +78,69 @@ export default {
     CardCarte,
   },
   mounted() {
-    EventBus.$on("ItemCarte", (item, qtd) => {
+    EventBus.$on("ItemCarte", (item, qtd, verifyTable) => {
       var obj = {
         user: this.$route.params.Rid,
         table: this.table,
         qtd: qtd,
         customerOrder: item,
       };
+      this.verifyTable = verifyTable;
       this.itemsCarte.push(obj);
       this.totalItemCarte += parseFloat(item.price * qtd);
     });
   },
   methods: {
-    ...mapActions("common", ["getCartes", "addCustomerOrder"]),
+    ...mapActions("common", [
+      "getCartes",
+      "addCustomerOrder",
+      "UpdateCustomerOrder",
+    ]),
     goDemand() {
       const data = {
         customer_order_table: this.table,
         customer_order_json: this.itemsCarte,
       };
-      console.log(data);
-      this.addCustomerOrder(data)
-        .then((res) => {
-          if (res.status == 200 || res.status == 204) {
-            router.push({
-              name: "Demand",
-              params: {
-                Rid: this.$route.params.Rid,
-                Mid: this.$route.params.Mid,
-              },
-            });
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      if (this.verifyTable) {
+        //table open
+        const dataUp = {
+          client: this.$route.params.Rid,
+          customer_order_table: this.table,
+          customer_order_json: this.itemsCarte,
+        };
+        this.UpdateCustomerOrder(dataUp)
+          .then((res) => {
+            if (res.status == 200 || res.status == 204) {
+              router.push({
+                name: "Demand",
+                params: {
+                  Rid: this.$route.params.Rid,
+                  Mid: this.$route.params.Mid,
+                },
+              });
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        //verify here
+        this.addCustomerOrder(data)
+          .then((res) => {
+            if (res.status == 200 || res.status == 204) {
+              router.push({
+                name: "Demand",
+                params: {
+                  Rid: this.$route.params.Rid,
+                  Mid: this.$route.params.Mid,
+                },
+              });
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     },
     removeItem(i, price) {
       this.itemsCarte.splice(i, 1);
@@ -120,6 +149,7 @@ export default {
   },
   data() {
     return {
+      verifyTable: false,
       itemsCarte: [],
       totalItemCarte: 0,
       table: this.$route.params.Mid,

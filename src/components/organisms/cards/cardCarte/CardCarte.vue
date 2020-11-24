@@ -89,6 +89,22 @@ import { mapActions } from "vuex";
 import { EventBus } from "@/services/event-bus.js";
 export default {
   created() {
+    const data = {
+      client: this.$route.params.Rid,
+      table: this.$route.params.Mid,
+    };
+    this.getVeryfyOpenTable(data)
+      .then((res) => {
+        console.log(res);
+        if (res.status == 200) {
+          this.verifyTable = true;
+        } else if (res.status == 204) {
+          this.verifyTable = false;
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     this.getCartes(this.$route.params.Rid)
       .then((res) => {
         if (res.status == 200) {
@@ -119,12 +135,12 @@ export default {
       });
   },
   methods: {
-    ...mapActions("common", ["getCartes"]),
+    ...mapActions("common", ["getCartes", "getVeryfyOpenTable"]),
     filter(item) {
       this.carte = this.cards.filter((x) => x.type == item);
     },
     addItem(item) {
-      EventBus.$emit("ItemCarte", item, this.qtd);
+      EventBus.$emit("ItemCarte", item, this.qtd, this.verifyTable);
     },
     addAnswer(item) {
       this.qtd = item;
@@ -145,6 +161,7 @@ export default {
       tabUnique: [],
       carte: [],
       cards: [],
+      verifyTable: false,
     };
   },
 };

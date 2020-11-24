@@ -39,8 +39,33 @@ export const addCustomerOrderClient = (data) => {
 }
 
 //table customer_order
+export const UpdateCustomerOrderClient = (data) => {
+    const headers = {
+        'Content-Type': 'application/json'
+    };
+    return http.put('v1/CustomerOrders/' + data.customer_order_table + '/' + data.client, data, { headers })
+        .then(res => {
+            return Promise.resolve(res)
+        })
+        .catch(error => {
+            return Promise.reject(error)
+        })
+}
+
+//table customer_order
 export const getCustomerOrderClient = (data) => {
     return http.get('v1/CustomerOrders/' + data.table + '/' + data.client)
+        .then(res => {
+            return Promise.resolve(res)
+        })
+        .catch(error => {
+            return Promise.reject(error)
+        })
+}
+
+//table customer_order
+export const getOpenTable = (data) => {
+    return http.get('v1/CustomerOrders/opentable/' + data.table + '/' + data.client)
         .then(res => {
             return Promise.resolve(res)
         })
