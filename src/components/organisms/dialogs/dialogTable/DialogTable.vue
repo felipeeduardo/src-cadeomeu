@@ -3,19 +3,20 @@
     <v-row justify="center">
       <v-dialog v-model="dialog" scrollable max-width="450px">
         <v-card>
-          <v-card-title class="headline">[Mesa]</v-card-title>
-          <v-card-subtitle>Descrição:</v-card-subtitle>
+          <v-card-title class="headline">Mesa - {{ this.table }}</v-card-title>
           <v-card-text>
-            <div>[3] - Frango com queijo (Molho, farofa, vinagrete)</div>
-            <div>[3] - Carne com queijo (Molho, farofa, vinagrete)</div>
-            <div>[2] - Cervejas</div>
+            <div v-for="item in datadialog" :key="item.index">
+              <div>{{ "[" + item.qtd + "] - " + item.title }}</div>
+            </div>
           </v-card-text>
           <v-card-actions>
             <v-btn color="primary" text @click="dialog = false">
               fechar Conta
             </v-btn>
             <v-spacer></v-spacer>
-            <v-btn color="success" text @click="dialog = false">Pedido Pronto </v-btn>
+            <v-btn color="success" text @click="dialog = false"
+              >Pedido Pronto
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -27,12 +28,24 @@
 import { EventBus } from "@/services/event-bus.js";
 export default {
   data() {
-    return { dialog: false };
+    return {
+      dialog: false,
+      table: "",
+      datadialog: [],
+    };
   },
   mounted() {
     EventBus.$on("dialogTable", (event, item) => {
+      this.datadialog = [];
       this.dialog = event;
-      console.log(item);
+      item.map((x) => {
+        this.table = x.table;
+        const data = {
+          title: x.customerOrder.title,
+          qtd: x.qtd,
+        };
+        this.datadialog.push(data);
+      });
     });
   },
 };

@@ -23,13 +23,18 @@ const mutations = {
     },
     [types.DEMANDCLIENT_COMMON_ERROR](state, demandClient) {
         state.demandClient = demandClient
-    }
-    ,
+    },
     [types.VERIFYOPENTABLE_COMMON_SUCCESS](state, verifyOpenTable) {
         state.verifyOpenTable = verifyOpenTable
     },
     [types.VERIFYOPENTABLE_COMMON_ERROR](state, verifyOpenTable) {
         state.verifyOpenTable = verifyOpenTable
+    },
+    [types.CUSTOMERORDERALLUSER_COMMON_SUCCESS](state, allCustomerOrdersUser) {
+        state.allCustomerOrdersUser = allCustomerOrdersUser
+    },
+    [types.CUSTOMERORDERALLUSER_COMMON_ERROR](state, allCustomerOrdersUser) {
+        state.allCustomerOrdersUser = allCustomerOrdersUser
     }
 }
 

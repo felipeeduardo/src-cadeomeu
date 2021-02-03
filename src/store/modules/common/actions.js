@@ -50,6 +50,17 @@ export const UpdateCustomerOrder = ({ commit }, data) => {
         })
 }
 
+export const getCustomerOrderUser = ({ commit }, data) => {
+    return commons.getAllCustomerOrderUser(data)
+        .then(result => {
+            commit(types.CUSTOMERORDERALLUSER_COMMON_SUCCESS, result.data)
+            return Promise.resolve(result)
+        }).catch(err => {
+            commit(types.CUSTOMERORDERALLUSER_COMMON_ERROR, err)
+            return Promise.reject(err)
+        })
+}
+
 export const getCustomerOrder = ({ commit }, data) => {
     return commons.getCustomerOrderClient(data)
         .then(result => {

@@ -53,6 +53,21 @@ export const UpdateCustomerOrderClient = (data) => {
 }
 
 //table customer_order
+export const getAllCustomerOrderUser = (data) => {
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + data.token,
+    };
+    return http.get('v1/CustomerOrders/' + data.id_user, { headers })
+        .then(res => {
+            return Promise.resolve(res)
+        })
+        .catch(error => {
+            return Promise.reject(error)
+        })
+}
+
+//table customer_order
 export const getCustomerOrderClient = (data) => {
     return http.get('v1/CustomerOrders/' + data.table + '/' + data.client)
         .then(res => {
