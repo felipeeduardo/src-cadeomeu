@@ -3,19 +3,21 @@
     <v-row justify="center">
       <v-dialog v-model="dialog" scrollable max-width="450px">
         <v-card>
+          <div class="text-right">
+            <v-btn icon color="red" @click="dialog = false">
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+          </div>
           <v-card-title class="headline">Mesa - {{ this.table }}</v-card-title>
           <v-card-text>
             <div v-for="item in datadialog" :key="item.index">
-              <div>{{ "[" + item.qtd + "] - " + item.title }}</div>
+              <div>{{ item.qtd + " - " + item.title }}</div>
             </div>
           </v-card-text>
           <v-card-actions>
+            <v-spacer></v-spacer>
             <v-btn color="primary" text @click="dialog = false">
               fechar Conta
-            </v-btn>
-            <v-spacer></v-spacer>
-            <v-btn color="success" text @click="dialog = false"
-              >Pedido Pronto
             </v-btn>
           </v-card-actions>
         </v-card>
