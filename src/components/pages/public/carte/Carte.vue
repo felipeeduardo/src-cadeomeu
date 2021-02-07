@@ -52,10 +52,12 @@
             </tbody>
           </template>
         </v-simple-table>
-        <v-row class="text-center">
-          <v-col cols="12">
+        <v-row>
+          <v-col cols="12" class="text-center">
+            <h3 class="sub-title">Total: R$ {{ this.totalItemCarte.toLocaleString("pt-BR") }}</h3>
             <h1 class="headline success--text">
-              Total: R$ {{ this.totalItemCarte }}
+              <span class="caption">10% opcional</span><br />
+              Total serviço: R$ {{ this.totalItemCarteService.toLocaleString("pt-BR") }}
             </h1>
           </v-col>
         </v-row>
@@ -88,6 +90,7 @@ export default {
       this.verifyTable = verifyTable;
       this.itemsCarte.push(obj);
       this.totalItemCarte += parseFloat(item.price * qtd);
+      this.totalItemCarteService += parseFloat(item.price * qtd) + parseFloat(item.price * qtd * 0.1);
     });
   },
   methods: {
@@ -145,6 +148,7 @@ export default {
     removeItem(i, price) {
       this.itemsCarte.splice(i, 1);
       this.totalItemCarte -= parseFloat(price);
+      this.totalItemCarteService -= parseFloat(price);
     },
   },
   data() {
@@ -152,7 +156,8 @@ export default {
       verifyTable: false,
       itemsCarte: [],
       totalItemCarte: 0,
-      table: this.$route.params.Mid
+      totalItemCarteService: 0,
+      table: this.$route.params.Mid,
     };
   },
 };

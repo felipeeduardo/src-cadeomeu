@@ -32,8 +32,12 @@
       </template>
     </v-simple-table>
     <v-row class="text-center">
-      <v-col cols="12">
-        <h1 class="headline success--text">Total: R$ {{ this.totalItem }}</h1>
+      <v-col cols="12" class="text-center">
+        <h3 class="sub-title">Total: R$ {{ this.totalItem.toLocaleString("pt-BR") }}</h3>
+        <h1 class="headline success--text">
+          <span class="caption">10% opcional</span><br />
+          Total serviço: R$ {{ this.totalItemService.toLocaleString("pt-BR") }}
+        </h1>
       </v-col>
     </v-row>
     <v-col cols="12">
@@ -64,6 +68,9 @@ export default {
               };
               this.items.push(item);
               this.totalItem += parseFloat(x.customerOrder.price * x.qtd);
+              this.totalItemService +=
+                parseFloat(x.customerOrder.price * x.qtd) +
+                parseFloat(x.customerOrder.price * x.qtd * 0.1);
             });
           });
         }
@@ -95,6 +102,7 @@ export default {
       created: "",
       items: [],
       totalItem: 0,
+      totalItemService: 0,
     };
   },
 };
