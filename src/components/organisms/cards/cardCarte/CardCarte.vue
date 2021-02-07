@@ -1,86 +1,98 @@
 <template>
   <v-container class="pa-0">
-    <v-card>
-      <v-tabs v-model="tab" show-arrows>
-        <v-tab
-          v-for="item in tabUnique"
-          :key="item.tab"
-          @click="filter(item)"
-          >{{ item }}</v-tab
-        >
-      </v-tabs>
-      <v-tabs-items v-model="tab">
-        <v-tab-item v-for="item in tabUnique" :key="item">
-          <!--cards-->
-          <v-flex v-for="item in carte" :key="item.index" class="mb-4">
-            <v-card class="mx-auto" color="grey lighten-5" tile>
-              <v-card-title>
-                <v-row>
-                  <v-col cols="7"> {{ item.title }}</v-col>
-                  <v-col cols="5" class="text-right">
-                    <h3 class="success--text">R$ {{ item.price }}</h3>
-                  </v-col>
-                </v-row>
-              </v-card-title>
-              <v-card-subtitle>
-                <v-row>
-                  <v-col cols="7">
-                    {{ item.subtitle }}
-                  </v-col>
-                  <v-col cols="5" class="text-right">
-                    <span class="text--secondary caption"
-                      >Estoque <b>{{ item.qtdStock }}</b></span
-                    >
-                  </v-col>
-                </v-row>
-              </v-card-subtitle>
-              <v-card-text v-show="item.accompaniments">
-                <b>Selecione os acompanhamentos:</b>
-                <v-row>
-                  <v-col cols="3">
-                    <v-checkbox
-                      class="ma-0 pa-0"
-                      v-model="item.crumbs"
-                      label="Farofa"
-                    ></v-checkbox>
-                  </v-col>
-                  <v-col cols="3">
-                    <v-checkbox
-                      class="ma-0 pa-0 ml-1"
-                      v-model="item.sauces"
-                      label="Molhos"
-                    ></v-checkbox>
-                  </v-col>
-                  <v-col cols="3">
-                    <v-checkbox
-                      class="ma-0 pa-0 ml-3"
-                      v-model="item.vinaigrette"
-                      label="Vinagrete"
-                    ></v-checkbox>
-                  </v-col>
-                </v-row>
-              </v-card-text>
-              <v-divider></v-divider>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-flex xs12 sm2>
-                  <v-select
-                    @change="addAnswer"
-                    :items="items"
-                    label="Quantidade"
-                    dense
-                    class="mr-3"
-                  ></v-select>
-                </v-flex>
-                <v-btn color="primary" @click="addItem(item)" small tile
-                  >Adicionar</v-btn
-                >
-              </v-card-actions>
-            </v-card>
-          </v-flex>
-        </v-tab-item>
-      </v-tabs-items>
-    </v-card>
+    <v-divider class="mx-4"></v-divider>
+    <v-list>
+      <v-list-group
+        v-for="item in items"
+        :key="item.title"
+        v-model="item.active"
+        :prepend-icon="item.action"
+        no-action
+      >
+        <template v-slot:activator>
+          <v-list-item-content>
+            <v-list-item-title v-text="item.title"></v-list-item-title>
+          </v-list-item-content>
+        </template>
+
+        <!--<v-list-item v-for="item in item.child" :key="item.title">
+          <v-list-item-content>
+            <v-list-item-title v-text="item.title"></v-list-item-title>
+            <v-list-item-title v-text="item.test"></v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>-->
+        <v-flex v-for="item in item.child" :key="item.title" class="mb-3">
+          <v-card class="mx-auto elevation-1" color="grey lighten-5" tile>
+            <v-card-title>
+              <v-row>
+                <v-col cols="8"
+                  ><p class="subtitle-1 font-weight-black">
+                    {{ item.title }}
+                  </p>
+                </v-col>
+                <v-col cols="4" class="text-right">
+                  <h4 class="success--text">R$ {{ item.price }}</h4>
+                </v-col>
+              </v-row>
+            </v-card-title>
+            <v-card-subtitle>
+              <v-row>
+                <v-col cols="7">
+                  {{ item.subtitle }}
+                </v-col>
+                <v-col cols="5" class="text-right">
+                  <span class="text--secondary caption"
+                    >Estoque <b>{{ item.qtdStock }}</b></span
+                  >
+                </v-col>
+              </v-row>
+            </v-card-subtitle>
+            <v-card-text v-show="item.accompaniments">
+              <b>Selecione os acompanhamentos:</b>
+              <v-row>
+                <v-col cols="3">
+                  <v-checkbox
+                    class="ma-0 pa-0"
+                    v-model="item.crumbs"
+                    label="Farofa"
+                  ></v-checkbox>
+                </v-col>
+                <v-col cols="3">
+                  <v-checkbox
+                    class="ma-0 pa-0 ml-1"
+                    v-model="item.sauces"
+                    label="Molhos"
+                  ></v-checkbox>
+                </v-col>
+                <v-col cols="3">
+                  <v-checkbox
+                    class="ma-0 pa-0 ml-3"
+                    v-model="item.vinaigrette"
+                    label="Vinagrete"
+                  ></v-checkbox>
+                </v-col>
+              </v-row>
+            </v-card-text>
+            <v-divider></v-divider>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-flex xs12 sm2>
+                <v-select
+                  @change="addAnswer"
+                  :items="itemsQtdCustomerOrder"
+                  label="Quantidade"
+                  dense
+                  class="mr-3"
+                ></v-select>
+              </v-flex>
+              <v-btn color="primary" @click="addItem(item)" tile
+                >Adicionar</v-btn
+              >
+            </v-card-actions>
+          </v-card>
+        </v-flex>
+      </v-list-group>
+    </v-list>
   </v-container>
 </template>
 
@@ -125,12 +137,19 @@ export default {
               this.cards.push(obj);
             }
           });
-
-          this.tabUnique = [...new Set(this.cards.map((x) => x.type))];
-          this.carte = this.cards.filter((x) => x.type == this.tabUnique[0]);
+          let titles = [...new Set(this.cards.map((x) => x.type))];
+          titles.forEach((el) => {
+            let objItemList = {
+              action: "mdi-menu",
+              title: el,
+              child: this.cards.filter((x) => x.type == el),
+            };
+            this.items.push(objItemList);
+          });
         }
       })
       .catch((err) => {
+        //500 temporariamente indisponivel
         console.log(err);
       });
   },
@@ -156,12 +175,13 @@ export default {
       crumbs: "",
       vinaigrette: "",
       qtd: 1,
-      items: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+      itemsQtdCustomerOrder: [1, 2, 3, 4, 5, 6, 7, 8, 9],
       tab: null,
-      tabUnique: [],
       carte: [],
       cards: [],
       verifyTable: false,
+      items: [],
+      child: [],
     };
   },
 };

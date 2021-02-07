@@ -152,7 +152,7 @@ export default {
       verifyTable: false,
       itemsCarte: [],
       totalItemCarte: 0,
-      table: this.$route.params.Mid,
+      table: this.$route.params.Mid
     };
   },
 };
