@@ -16,7 +16,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" text @click="dialog = false">
+            <v-btn color="primary" text @click="closeOrOpenCustomer()">
               fechar Conta
             </v-btn>
           </v-card-actions>
@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 import { EventBus } from "@/services/event-bus.js";
 export default {
   data() {
@@ -34,12 +35,36 @@ export default {
       dialog: false,
       table: "",
       datadialog: [],
+      idCustomOrder: "",
     };
   },
+  computed: {
+    ...mapState("auth", ["auth"]),
+  },
+  methods: {
+    ...mapActions("common", ["UpdateCustomerOrderTable"]),
+    closeOrOpenCustomer() {
+      const data = {
+        id_customer_order: this.idCustomOrder,
+        token: this.auth.token,
+        flag: false,
+      };
+      this.UpdateCustomerOrderTable(data)
+        .then((res) => {
+          if (res.status == 204) {
+            this.dialog = false;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
   mounted() {
-    EventBus.$on("dialogTable", (event, item) => {
+    EventBus.$on("dialogTable", (event, item, id) => {
       this.datadialog = [];
       this.dialog = event;
+      this.idCustomOrder = id;
       item.map((x) => {
         this.table = x.table;
         const data = {

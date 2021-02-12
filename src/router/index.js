@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from '@/components/pages/public/home'
 import HomePrivate from '@/components/pages/private/home'
 import CustomerOrder from '@/components/pages/private/customerOrder'
+import CustomerOrderHistoric from '@/components/pages/private/historic'
 import Stock from '@/components/pages/private/stock'
 import AddStock from '@/components/pages/private/stock/add'
 import Carte from '@/components/pages/public/carte'
@@ -71,6 +72,12 @@ export default new Router({
             path: "/:Rid/stock/add",
             name: 'AddStock',
             component: AddStock,
+            beforeEnter: ifAuthenticated
+        },
+        {
+            path: "/:Rid/customerorder/historic",
+            name: 'CustomerOrderHistoric',
+            component: CustomerOrderHistoric,
             beforeEnter: ifAuthenticated
         },
     ]

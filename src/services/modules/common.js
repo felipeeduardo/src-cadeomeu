@@ -53,12 +53,27 @@ export const UpdateCustomerOrderClient = (data) => {
 }
 
 //table customer_order
+export const UpdateCustomerOrderCloseOrOpen = (data) => {
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + data.token,
+    };
+    return http.put('v1/CustomerOrders/tables/openorclose/' + data.id_customer_order + '/' + data.flag, data, { headers })
+        .then(res => {
+            return Promise.resolve(res)
+        })
+        .catch(error => {
+            return Promise.reject(error)
+        })
+}
+
+//table customer_order
 export const getAllCustomerOrderUser = (data) => {
     const headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + data.token,
     };
-    return http.get('v1/CustomerOrders/' + data.id_user, { headers })
+    return http.get('v1/CustomerOrders/tables/' + data.id_user + '/' + data.flag, { headers })
         .then(res => {
             return Promise.resolve(res)
         })

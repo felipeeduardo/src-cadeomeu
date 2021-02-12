@@ -7,6 +7,9 @@
           Atualizado em: <b>{{ this.formatDateDb(new Date()) }}</b>
         </p>
         <CustomerOrderLoader :loaderCustomerOrder="this.loadingCustomerOrder" />
+        <v-btn color="primary" @click="goCustomerOrderHistoric()" tile block
+          >Hitórico de pedidos</v-btn
+        >
       </v-col>
       <v-col
         sm="4"
@@ -19,7 +22,7 @@
           class="mx-auto"
           color="orange lighten-3"
           tile
-          @click="handleClick(item.customer_order_json)"
+          @click="handleClick(item.customer_order_json, item.id)"
         >
           <v-card-title> Mesa - {{ item.table }} </v-card-title>
           <v-card-subtitle>
@@ -33,6 +36,7 @@
 </template>
 
 <script>
+import router from "@/router";
 import { mapState, mapActions, mapGetters } from "vuex";
 import DialogTable from "@/components/organisms/dialogs/dialogTable";
 import CustomerOrderLoader from "@/components/organisms/loader/customerOrderLoader";
@@ -49,8 +53,8 @@ export default {
   },
   methods: {
     ...mapActions("common", ["getCustomerOrderUser"]),
-    handleClick(item) {
-      EventBus.$emit("dialogTable", true, item);
+    handleClick(item, id_customer_order) {
+      EventBus.$emit("dialogTable", true, item, id_customer_order);
     },
     formatDateDb(date) {
       var data = new Date(date),
@@ -67,12 +71,14 @@ export default {
       const data = {
         id_user: this.auth.user.id_user,
         token: this.auth.token,
+        flag: true,
       };
       this.getCustomerOrderUser(data)
         .then((res) => {
           if (res.status == 200) {
             res.data.forEach((el) => {
               let item = {
+                id: el.id_customer_order,
                 created: this.formatDateDb(el.created),
                 table: el.customer_order_table,
                 customer_order_json: el.customer_order_json,
@@ -87,6 +93,12 @@ export default {
     },
     cancelAutoUpdate() {
       clearInterval(this.timer);
+    },
+    goCustomerOrderHistoric() {
+      router.push({
+        name: "CustomerOrderHistoric",
+        params: { Rid: this.$route.params.Rid },
+      });
     },
   },
   beforeDestroy() {
